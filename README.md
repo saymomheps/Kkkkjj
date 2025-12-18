@@ -1,5 +1,3 @@
-# Kkkkjj
-Jsjwjwjjs
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -12,6 +10,22 @@ Jsjwjwjjs
 <style>
 .piano-container { perspective: 1000px; }
 
+.piano-wrapper {
+    position: relative;
+}
+
+.piano-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: url("https://i.imgur.com/8Km9tLL.png");
+    background-size: cover;
+    background-position: center;
+    opacity: 0.22;
+    pointer-events: none;
+    border-radius: 12px;
+    z-index: 5;
+}
+
 .key {
     position: relative;
     cursor: pointer;
@@ -23,19 +37,7 @@ Jsjwjwjjs
     font-weight: bold;
     border-radius: 0 0 6px 6px;
     transition: all .08s ease;
-    overflow: hidden;
-}
-
-/* Girl image overlay */
-.key::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("https://i.imgur.com/8Km9tLL.png");
-    background-size: cover;
-    background-position: center;
-    opacity: 0.18;
-    pointer-events: none;
+    z-index: 10;
 }
 
 .white-key {
@@ -43,7 +45,6 @@ Jsjwjwjjs
     height: 210px;
     background: white;
     border: 1px solid #ccc;
-    z-index: 1;
 }
 
 .white-key.active {
@@ -57,7 +58,7 @@ Jsjwjwjjs
     background: #111;
     margin-left: -18px;
     margin-right: -18px;
-    z-index: 2;
+    z-index: 20;
     color: white;
     font-size: 11px;
 }
@@ -74,7 +75,10 @@ Jsjwjwjjs
 <h1 class="text-3xl font-bold text-white mb-6">🎹 ৩৬-Key ভার্চুয়াল পিয়ানো</h1>
 
 <div class="piano-container bg-gray-800 p-6 rounded-xl shadow-xl">
-    <div id="piano" class="flex"></div>
+    <div class="piano-wrapper">
+        <div id="piano" class="flex"></div>
+        <div class="piano-overlay"></div>
+    </div>
 </div>
 
 <script>
@@ -93,9 +97,8 @@ const NOTES = [
 
 const active = {};
 
-// Equal temperament formula
-function freqFromNote(noteIndex) {
-    return 440 * Math.pow(2, (noteIndex - 57) / 12);
+function freqFromNote(i) {
+    return 440 * Math.pow(2, (i - 57) / 12);
 }
 
 let noteIndex = 36; // C3
